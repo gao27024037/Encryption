@@ -11,7 +11,7 @@ int main()
 	string plaintext = "hello nsfjnoiwjwljelk";
 	string ciphertext = "";
 	string keyword = "123456";
-	MD5 m;  
+	MD5 m;    
 	cout<<m.Encrypt("abc");
 	//cout << "ÃÜÎÄÊÇ£º" << endl;
 	//cout << d.ciphertext << endl;
