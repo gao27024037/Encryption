@@ -11,34 +11,56 @@ public:
 	unsigned __int64 y;		//公钥
 	unsigned __int64 r;		//数字签名(r,s)
 	unsigned __int64 s;
+	string sig;
 
 	DSS() {
 	}
 
-	DSS(unsigned __int64 xy, unsigned __int64 rr, unsigned __int64 ss) {
+	DSS(unsigned __int64 xy, string sigg) {
 		x = y = xy;
-		r = rr;
-		s = ss;
+		sig = sigg;
 	}
 
 	void signature(string message) {
+		//签名
 		srand(time(0));
 		hash<std::string> h;
 		unsigned __int64 k = rand() % q;	//k为随机数  0<k<q
-		//unsigned __int64 HM = 1234;
 		r = PowMod(g, k, p) % q;
 		s = mod_reverse(k, q)*((h(message) + x*r) % q) % q;
+
+		//r*1000+s 存入字符串sig 
+		int str = r * 1000 + s;
+		char cnum[7];
+		sprintf_s(cnum, "%d", str);
+		sig = cnum;
+		while (sig.size() < 6)		//若不够6位则在前面补0
+		{
+			sig = "0" + sig;
+		}
 	}
 
 	void verify(string message) {
+		//从sig里获取(x,s)
+		char cnum[7];
+		int str;
+		strcpy(cnum, sig.substr(0, 6).c_str());
+		sscanf(cnum, "%d", &str);
+		r = str / 1000;
+		s = str % 1000;
+
+		//验证
 		hash<std::string> h;
-		//unsigned __int64 HM = 1234;
 		unsigned __int64 w = mod_reverse(s,q);
 		unsigned __int64 u1 = h(message) * w % q;
 		unsigned __int64 u2 = r * w % q;
 		unsigned __int64 v = (PowMod(g, u1, p)*PowMod(y, u2, p) % p) % q;	//用了a*b % n = (a % n)*(b % n) % n
 		if (v == r) {
 			cout << "ture" << endl;
+		}
+		else
+		{
+			cout << "false" << endl;
 		}
 	}
 

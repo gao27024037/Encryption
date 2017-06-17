@@ -15,6 +15,7 @@ public:
 	unsigned __int64 b;			//a对于φ(n)的模反元素
 	unsigned __int64 a = 65537;
 
+
 	RSA(int nn, int ab) {
 		n = nn;
 		b = a = ab;
@@ -68,11 +69,9 @@ public:
 		p = prime[rand() % 90];
 		q = prime[rand() % 90];
 		n = p * q;
-		cout << "私钥:" << endl;
-		cout << "(" << n << "," << a <<")"<< endl;
-		cout << "公钥：" << endl;
-		unsigned __int64 b = mod_reverse(a, (p - 1)*(q - 1));
-		cout << "(" << n << "," << b << ")" << endl;
+		b = mod_reverse(a, (p - 1)*(q - 1));
+		cout << "私钥:" << "(" << n << "," << a <<")"<< endl;
+		cout << "公钥:" << "(" << n << "," << b << ")" << endl;
 	}
 
 
