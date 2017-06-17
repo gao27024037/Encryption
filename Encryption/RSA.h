@@ -2,7 +2,7 @@
 #define RSA_H
 #include <string>
 #include <iostream>
-#include<ctime>
+#include <ctime>
 using namespace std;
 class RSA
 {

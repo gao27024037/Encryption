@@ -30,6 +30,9 @@
     <ClInclude Include="Vigenere.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DSS.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EncryptAlgorithm.cpp">

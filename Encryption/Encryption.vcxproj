@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="DES.h" />
     <ClInclude Include="DEStable.h" />
+    <ClInclude Include="DSS.h" />
     <ClInclude Include="MD5.h" />
     <ClInclude Include="RSA.h" />
     <ClInclude Include="Vigenere.h" />
