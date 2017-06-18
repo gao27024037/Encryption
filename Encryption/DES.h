@@ -52,11 +52,8 @@ public:
 			Key[i] = keyword[i];
 		}
 		static bool K[64], *KL = &K[0], *KR = &K[28];
-
 		charToByte(K, Key, 64);					//从char转换到二进制数组
-
 		Transform(K, K, PC_1Table, 56);			//从64位化为56位
-
 		for (int i = 0; i < 16; i++)
 		{
 			shiftLeft(KL, 28, shiftTable[i]);
@@ -71,21 +68,16 @@ private:
 
 	void Run(char Out[8], char In[8], bool Type) {
 		static bool M[64], temp[32], *Li = &M[0], *Ri = &M[32];
-
 		charToByte(M, In, 64);					//从char转换到二进制数组;
-
 		Transform(M, M, initIPTable, 64);		//初始变化（IP）
-
 		if (Type)
 		{
 			for (int i = 0; i < 16; i++)
 			{
 				memcpy(temp, Ri, 32);		//把右侧R(i-1)赋值给temp
-
-				// R[i] = L[i-1] xor f(R[i-1], K[i])
+											// R[i] = L[i-1] xor f(R[i-1], K[i])
 				F_function(Ri, SubKey[i]);
 				Xor(Ri, Li, 32);
-
 				// L[i] = R[i-1]
 				memcpy(Li, temp, 32);
 			}
@@ -98,7 +90,6 @@ private:
 											// R[i] = L[i-1] xor f(R[i-1], K[i])
 				F_function(Li, SubKey[i]);
 				Xor(Li, Ri, 32);
-
 				// L[i] = R[i-1]
 				memcpy(Ri, temp, 32);
 			}
@@ -109,23 +100,18 @@ private:
 
 	void F_function(bool In[32], bool Ki[48]) {
 		static bool T[48];
-
 		//输入Ri-1(32比特)经过变换E后，膨胀为48比特
 		Transform(T, In, extendTable, 48);
-
 		//异或
 		Xor(T, Ki, 48);
-
 		//膨胀后的比特串分为8组，每组6比特。各组经过各自的S盒后，又变为4比特(具体过程见后)，合并后又成为32比特。
 		S_function(In, T);
-
 		//该32比特经过P变换后，输出的比特串才是32比特的f (Ri-1,Ki)。
 		Transform(In, In, PTable, 32);
 	}
 
 	void S_function(bool Out[32], bool In[48]) {
 		char j, m, n, num;
-
 		//膨胀后的比特串分为8组，每组6比特。
 		for (j = 0; j < 8; j++, In += 6, Out += 4)
 		{
@@ -141,9 +127,7 @@ private:
 
 	void Xor(bool *Out, const bool *In, int len)
 	{
-		int i;
-
-		for (i = 0; i < len; i++)
+		for (int i = 0; i < len; i++)
 		{
 			Out[i] ^= In[i];
 		}
@@ -160,10 +144,8 @@ private:
 	//换位  Table：换位表   len:换位表表长
 	void Transform(bool *Out, bool *In, const int *Table, int len)
 	{
-		int i;
 		static bool tmp[256];
-
-		for (i = 0; i < len; i++)
+		for (int i = 0; i < len; i++)
 		{
 			tmp[i] = In[Table[i] - 1];
 		}

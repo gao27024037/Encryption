@@ -14,8 +14,6 @@ public:
 	unsigned __int64 n;			//n=p*q
 	unsigned __int64 b;			//a对于φ(n)的模反元素
 	unsigned __int64 a = 65537;
-
-
 	RSA(int nn, int ab) {
 		n = nn;
 		b = a = ab;
@@ -30,7 +28,7 @@ public:
 		{
 			//把2个char用ASCII表转化在一起构成一个6位数字
 			num = plaintext[i] * 1000 + plaintext[i + 1];
-			N = PowMod(num, b, n);
+			N = PowMod(num, a, n);
 			sprintf_s(cnum, "%d", N);
 			s = cnum;
 			while (s.size() < 6)		//若不够6位则在前面补0
@@ -54,7 +52,7 @@ public:
 			strcpy(cnum, ciphertext.substr(i, 6).c_str());
 			sscanf(cnum, "%d", &aa);
 			N = aa;
-			num = PowMod(N, a, n);
+			num = PowMod(N, b, n);
 			plaintext += char(num / 1000);
 			plaintext += char(num % 1000);
 		}
@@ -70,10 +68,9 @@ public:
 		q = prime[rand() % 90];
 		n = p * q;
 		b = mod_reverse(a, (p - 1)*(q - 1));
-		cout << "私钥:" << "(" << n << "," << a <<")"<< endl;
-		cout << "公钥:" << "(" << n << "," << b << ")" << endl;
+		cout << "公钥:" << "(" << n << "," << a <<")"<< endl;
+		cout << "私钥:" << "(" << n << "," << b << ")" << endl;
 	}
-
 
 private:
 	//三位素数
@@ -88,13 +85,11 @@ private:
 		911, 919, 929, 937, 941, 947, 953, 967, 971, 977,
 		983, 991, 997 };
 
-
 	//模乘运算，返回值 x=a*b mod n
 	inline unsigned __int64 MulMod(unsigned __int64 a, unsigned __int64 b, unsigned __int64 n)
 	{
 		return a * b % n;
 	}
-
 	//模幂运算，返回值 x=base^pow mod n
 	unsigned __int64 PowMod(unsigned __int64 &base, unsigned __int64 &pow, unsigned __int64 &n)
 	{
@@ -109,7 +104,6 @@ private:
 			c = MulMod(a, c, n);
 		}    return c;
 	}
-
 	//返回d=gcd(a,b);和对应于等式ax+by=d中的x,y
 	long long extend_gcd(long long a, long long b, long long &x, long long &y) {
 		if (a == 0 && b == 0) return -1;//无最大公约数

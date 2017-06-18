@@ -167,8 +167,6 @@ private:
 		}
 		return str;
 	}
-
 };
-
 #endif // !MD5_H
 

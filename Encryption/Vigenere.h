@@ -71,5 +71,4 @@ private:
 		return plaintext;
 	}
 };
-
 #endif
