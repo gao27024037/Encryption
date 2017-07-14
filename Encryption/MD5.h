@@ -149,7 +149,7 @@ private:
 		dtemp = d + dtemp;
 	}
 
-	//转换为16进制数  （实在没看懂）
+	//转换为16进制数  （实在没看懂） 百科的代码
 	string changeHex(int a) {
 		int b;
 		string str1;

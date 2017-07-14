@@ -18,7 +18,6 @@ string getText(string filename);
 void writeCiphertext(string ciphertext, string fileName);
 int main()
 {
-	string plaintext = "hello nsfjnoiwjwljelk";
 	printHead();
 	int a;
 	while (cin>>a)
@@ -55,7 +54,7 @@ void printHead() {
 	cout << "-            5.DSS签名算法            -" << endl;
 	cout << "-            6.退出                   -" << endl;
 	cout << "---------------------------------------" << endl;
-	cout << "明文内容为：Hello are you OK i am lei jun\n" << endl;
+	cout << "明文内容为："+ getText("plaintext.txt") +"\n" << endl;
 	cout << "选择：";
 }
 

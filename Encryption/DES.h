@@ -10,6 +10,7 @@ class DES {
 public:
 	string plaintext = "";
 	string ciphertext = "";
+
 	DES(string keyword) {
 		if (keyword.size() < 8)
 		{
@@ -22,10 +23,10 @@ public:
 		ciphertext = "";
 		char plainchar[12];
 		char cipherchar[12] = "";
-		for (unsigned int i = 0; i < plaintext.size(); i += 8) {
-			strcpy(plainchar, plaintext.substr(i, 8).c_str());
-			memset(cipherchar, 0, sizeof(plainchar));
-			Run(cipherchar, plainchar, true);		//因为是对称加密
+		for (unsigned int i = 0; i < plaintext.size(); i += 8) {	//把明文按每8个字节分割
+			strcpy(plainchar, plaintext.substr(i, 8).c_str());		
+			memset(cipherchar, 0, sizeof(plainchar));				//把cipherchar每一位赋值0
+			Run(cipherchar, plainchar, true);						//获取对应密文
 			ciphertext += cipherchar;
 		}
 		return ciphertext;
@@ -36,9 +37,9 @@ public:
 		char plainchar[12];
 		char cipherchar[12];
 		for (unsigned int i = 0; i < ciphertext.size(); i += 8) {
-			strcpy(cipherchar, ciphertext.substr(i, 8).c_str());
+			strcpy(cipherchar, ciphertext.substr(i, 8).c_str());	//把密文按每8个字节分割
 			memset(plainchar, 0, sizeof(cipherchar));
-			Run(plainchar, cipherchar, false);		//因为是对称加密
+			Run(plainchar, cipherchar, false);		//获取对应明文
 			plaintext += plainchar;
 		}
 		return plaintext;
@@ -51,14 +52,14 @@ public:
 		{
 			Key[i] = keyword[i];
 		}
-		static bool K[64], *KL = &K[0], *KR = &K[28];
-		charToByte(K, Key, 64);					//从char转换到二进制数组
-		Transform(K, K, PC_1Table, 56);			//从64位化为56位
+		static bool K[64], *KL = &K[0], *KR = &K[28];	//kl,kr分别为左侧和右侧子密码段
+		charToByte(K, Key, 64);							//从char转换到二进制数组
+		Transform(K, K, PC_1Table, 56);					//从64位化为56位
 		for (int i = 0; i < 16; i++)
 		{
-			shiftLeft(KL, 28, shiftTable[i]);
-			shiftLeft(KR, 28, shiftTable[i]);
-			Transform(SubKey[i], K, PC_2Table, 48);
+			shiftLeft(KL, 28, shiftTable[i]);			//左移
+			shiftLeft(KR, 28, shiftTable[i]);			
+			Transform(SubKey[i], K, PC_2Table, 48);	    //据PC2表做转换
 		}
 	}
 

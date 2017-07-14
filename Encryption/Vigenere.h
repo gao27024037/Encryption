@@ -13,15 +13,14 @@ public:
 		secretKeyWord = keyword;
 		initSecretKeyNum();
 	}
+
 	string Encrypt(string plaintext) {
-		//initSecretKeyNum(keyword);
-		transform(plaintext.begin(), plaintext.end(), plaintext.begin(), tolower);
+		transform(plaintext.begin(), plaintext.end(), plaintext.begin(), tolower);	//全部转换为小写
 		ciphertext = transPlainToCipher(plaintext);
 		return ciphertext;
 	}
 
 	string Decrypt(string ciphertext) {
-		//initSecretKeyNum(keyword);
 		plaintext = transCipherToPlain(ciphertext);
 		return plaintext;
 	}
@@ -29,6 +28,7 @@ public:
 private:
 	string secretKeyWord = "china";
 	int secretKeyNum[5];
+
 	//Get secretKeyNum
 	void initSecretKeyNum() {
 		for (unsigned int i = 0; i < secretKeyWord.size(); ++i)
